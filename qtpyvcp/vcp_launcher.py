@@ -206,7 +206,7 @@ def _initialize_object_from_dict(object_dict, parent=None):
 
 
 def loadWindows(windows):
-    for window_id, window_dict in windows.items():
+    for window_id, window_dict in list(windows.items()):
 
         window = _initialize_object_from_dict(window_dict)
         qtpyvcp.WINDOWS[window_id] = window
@@ -217,7 +217,7 @@ def loadWindows(windows):
 
 
 def loadDialogs(dialogs):
-    for dialogs_id, dialogs_dict in dialogs.items():
+    for dialogs_id, dialogs_dict in list(dialogs.items()):
 
         inst = _initialize_object_from_dict(dialogs_dict)
         qtpyvcp.DIALOGS[dialogs_id] = inst

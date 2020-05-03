@@ -19,7 +19,7 @@ def loadDataPlugins(plugins):
         plugins (dict) : List of dictionaries.
     """
 
-    for protocol, plugin_dict in plugins.items():
+    for protocol, plugin_dict in list(plugins.items()):
 
         try:
             object_ref = plugin_dict['provider']

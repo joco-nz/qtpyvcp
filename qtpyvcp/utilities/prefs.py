@@ -15,7 +15,7 @@ Getting Preference::
 import os
 import ast
 
-import ConfigParser
+import configparser
 
 from qtpyvcp.utilities.info import Info
 from qtpyvcp.utilities.misc import normalizePath
@@ -27,10 +27,10 @@ log = logger.getLogger(__name__)
 INFO = Info()
 CONFIG_DIR = os.getenv('CONFIG_DIR')
 
-class _Preferences(ConfigParser.RawConfigParser):
+class _Preferences(configparser.RawConfigParser):
 
     def __init__(self, pref_file='~/.qtpyvcp.pref'):
-        ConfigParser.RawConfigParser.__init__(self)
+        configparser.RawConfigParser.__init__(self)
 
         self.pref_file = normalizePath(pref_file, CONFIG_DIR) or '/dev/null'
 
@@ -55,13 +55,13 @@ class _Preferences(ConfigParser.RawConfigParser):
             getter = self.getters.get(opt_type)
             value = getter(section, option, default_val)
             return value
-        except ConfigParser.NoSectionError:
+        except configparser.NoSectionError:
             # Add the section and the option
             log.debug("Adding missing section [{0}]".format(section))
             self.add_section(section)
             log.debug('Adding missing option [{0}] "{1}"'.format(section, option))
             self.set(section, option, default_val)
-        except ConfigParser.NoOptionError:
+        except configparser.NoOptionError:
             # Add the option
             log.debug('Adding missing option [{0}] "{1}"'.format(section, option))
             self.set(section, option, default_val)
@@ -74,7 +74,7 @@ class _Preferences(ConfigParser.RawConfigParser):
     def setPref(self, section, option, value):
         try:
             self.set(section, option, str(value))
-        except ConfigParser.NoSectionError:
+        except configparser.NoSectionError:
             # Add the section and the option
             log.debug('Adding missing option [{0}] "{1}"'.format(section, option))
             self.add_section(section)

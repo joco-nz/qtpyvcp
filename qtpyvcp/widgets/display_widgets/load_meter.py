@@ -12,9 +12,9 @@ class LoadMeter(QProgressBar, VCPWidget):
     def __init__(self, parent=None):
         super(LoadMeter, self).__init__(parent)
 
-        self.barGradient = [u'0.0, 0, 255, 0',
-                            u'0.8, 255, 255, 0',
-                            u'1.0, 255, 0, 0',]
+        self.barGradient = ['0.0, 0, 255, 0',
+                            '0.8, 255, 255, 0',
+                            '1.0, 255, 0, 0',]
 
         self._text_color = QColor(0, 0, 0)
         self._border_color = Qt.gray

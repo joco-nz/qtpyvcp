@@ -209,7 +209,7 @@ class VCPApplication(QApplication):
 
         Returns: QWidget
         """
-        for win_name, obj in qtpyvcp.WINDOWS.items():
+        for win_name, obj in list(qtpyvcp.WINDOWS.items()):
             if hasattr(obj, name):
                 return getattr(obj, name)
 
@@ -248,14 +248,14 @@ class VCPApplication(QApplication):
                     LOG.exception('Error terminating %s widget', w)
 
     def initialiseDataPlugins(self):
-        for plugin, obj in qtpyvcp.PLUGINS.items():
+        for plugin, obj in list(qtpyvcp.PLUGINS.items()):
             LOG.debug("Initializing %s plugin", plugin)
             obj.initialise()
 
     def terminateDataPlugins(self):
         # terminate in reverse order, this is to prevent problems
         # when terminating plugins that used other plugins.
-        for plugin, obj in reversed(qtpyvcp.PLUGINS.items()):
+        for plugin, obj in reversed(list(qtpyvcp.PLUGINS.items())):
             LOG.debug("Terminating %s plugin", plugin)
             try:
                 # try so that other plugins are terminated properly

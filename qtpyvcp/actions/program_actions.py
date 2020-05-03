@@ -497,7 +497,7 @@ FILTER_TEMP = None
 def openFilterProgram(self, fname, flt):
     temp_dir = _mktemp()
     tmp = os.path.join(temp_dir, os.path.basename(fname))
-    print 'temp', temp_dir
+    print('temp', temp_dir)
     flt = FilterProgram(flt, fname, tmp, lambda r: r or self._loadFilterResult(tmp))
 
 def _loadFilterResult(self, fname):

@@ -26,8 +26,8 @@ from qtpyvcp.widgets import VCPWidget
 from qtpyvcp.utilities import logger
 from qtpyvcp.utilities.info import Info
 
-from base_canon import StatCanon
-from base_backplot import BaseBackPlot
+from .base_canon import StatCanon
+from .base_backplot import BaseBackPlot
 
 INFO = Info()
 
@@ -129,7 +129,7 @@ class VTKCanon(StatCanon):
     def set_g5x_offset(self, index, x, y, z, a, b, c, u, v, w):
 
         origin = self.index_map[index]
-        if origin not in self.path_actors.keys():
+        if origin not in list(self.path_actors.keys()):
             self.path_actors[origin] = PathActor()
             self.path_points[origin] = list()
 
@@ -176,7 +176,7 @@ class VTKCanon(StatCanon):
 
     def draw_lines(self):
 
-        for origin, data in self.path_points.items():
+        for origin, data in list(self.path_points.items()):
 
             path_actor = self.path_actors.get(origin)
 
@@ -261,7 +261,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
         self.origin_map = dict()
 
-        for k, v in self.index_map.items():
+        for k, v in list(self.index_map.items()):
             self.origin_map[v] = k
 
         self.g5x_offset = self.stat.g5x_offset
@@ -335,7 +335,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
             self.canon = self.canon_class()
             self.path_actors = self.canon.get_path_actors()
 
-            for origin, actor in self.path_actors.items():
+            for origin, actor in list(self.path_actors.items()):
 
                 index = self.origin_map[origin]
 
@@ -572,7 +572,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
     def load_program(self, fname=None):
 
         LOG.debug("load_program")
-        for origin, actor in self.path_actors.items():
+        for origin, actor in list(self.path_actors.items()):
             axes = actor.get_axes()
             extents = self.extents[origin]
 
@@ -597,7 +597,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
         self.renderer.AddActor(self.axes_actor)
 
-        for origin, actor in self.path_actors.items():
+        for origin, actor in list(self.path_actors.items()):
 
             axes = actor.get_axes()
 
@@ -666,7 +666,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
         self.axes_actor.SetUserTransform(transform)
 
-        for origin, actor in self.path_actors.items():
+        for origin, actor in list(self.path_actors.items()):
             # path_offset = [n - o for n, o in zip(position[:3], self.original_g5x_offset[:3])]
 
             path_index = self.origin_map[origin]
@@ -727,7 +727,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
             path_offset = list(map(add, self.g92_offset, self.original_g92_offset))
 
-            for origin, actor in self.path_actors.items():
+            for origin, actor in list(self.path_actors.items()):
                 # LOG.debug('G92 Update Started')
                 # determine change in g92 offset since path was drawn
                 index = self.origin_map[origin] - 1
@@ -871,7 +871,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
         fp = self.camera.GetFocalPoint()
         LOG.debug('focal point {}'.format(fp))
         p = self.camera.GetPosition()
-        print('position {}'.format(p))
+        print(('position {}'.format(p)))
         # dist = math.sqrt( (p[0]-fp[0])**2 + (p[1]-fp[1])**2 + (p[2]-fp[2])**2 )
         # print(dist)
         # self.camera.SetPosition(10, -40, -1)
@@ -880,7 +880,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
         vu = self.camera.GetViewUp()
         LOG.debug('view up {}'.format(vu))
         d = self.camera.GetDistance()
-        print('distance {}'.format(d))
+        print(('distance {}'.format(d)))
         # self.interactor.ReInitialize()
 
     @Slot()
@@ -967,7 +967,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
     @Slot(bool)
     def toggleProgramBounds(self, show):
         self.show_extents = show
-        for origin, actor in self.path_actors.items():
+        for origin, actor in list(self.path_actors.items()):
             extents_actor = self.extents[origin]
             if extents_actor is not None:
                 if show:
@@ -982,7 +982,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
     @Slot()
     def toggleProgramTicks(self):
-        for origin, actor in self.path_actors.items():
+        for origin, actor in list(self.path_actors.items()):
             extents = self.extents[origin]
             if extents is not None:
                 ticks = extents.GetXAxisTickVisibility()
@@ -998,7 +998,7 @@ class VTKBackPlot(QVTKRenderWindowInteractor, VCPWidget, BaseBackPlot):
 
     @Slot()
     def toggleProgramLabels(self):
-        for origin, actor in self.path_actors.items():
+        for origin, actor in list(self.path_actors.items()):
             extents = self.extents[origin]
             if extents is not None:
                 labels = extents.GetXAxisLabelVisibility()
