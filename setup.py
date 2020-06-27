@@ -91,6 +91,7 @@ setup(
         'pyopengl',
         'vtk',
         'pyqtgraph',
+        'more-itertools',
     ],
     entry_points={
         'console_scripts': [
@@ -111,6 +112,7 @@ setup(
         'qtpyvcp.example_vcp': [
             'mini=examples.mini',
             'brender=examples.brender',
+            'actions=examples.actions',
         ],
         'qtpyvcp.test_vcp': [
             'vtk_test=video_tests.vtk_test',
