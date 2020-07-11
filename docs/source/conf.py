@@ -126,6 +126,8 @@ keep_warnings = True
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
+# Order autodoc by source rather than alphabetically
+autodoc_member_order = 'bysource'
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -425,8 +427,9 @@ Mock.mock_modules('qtpy',
                   'docopt',
                   'dbus')
 
-import qtpyvcp
-qtpyvcp.PLUGINS = mock.MagicMock()
+import qtpyvcp.plugins
+qtpyvcp.plugins._PLUGINS = mock.MagicMock()
+qtpyvcp.plugins.iterPlugins = mock.MagicMock()
 qtpyvcp.WINDOWS = mock.MagicMock()
 qtpyvcp.OPTIONS = mock.MagicMock()
 qtpyvcp.DIALOGS = mock.MagicMock()

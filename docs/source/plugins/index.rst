@@ -1,13 +1,21 @@
-============
-Data Plugins
-============
+=======
+Plugins
+=======
+
+.. todo:: Add info about plugins, their usage and adding custom plugins.
+
+Included plugins
+----------------
 
 .. toctree::
    :maxdepth: 1
 
-   plugin
+   base_plugins
    status
    positions
    tool_table
    notifications
    clock
+
+.. automodule:: qtpyvcp.plugins
+    :members:
