@@ -56,8 +56,11 @@ class VCPApplication(QApplication):
             self.loadStylesheet(stylesheet, opts.develop)
 
         if custom_fonts:
-            for font in custom_fonts:
-                self.loadFont(font)
+            if isinstance(custom_fonts, basestring):  # single font
+                self.loadFont(custom_fonts)
+            else:  # list of fonts
+                for font in custom_fonts:
+                    self.loadFont(font)
 
         # self.window = self.loadVCPMainWindow(opts, vcp_file)
         # if self.window is not None:
