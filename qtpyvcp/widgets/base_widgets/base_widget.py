@@ -12,6 +12,7 @@ import json
 from qtpy.QtCore import Property, Slot
 from qtpy.QtWidgets import QPushButton
 
+import qtpyvcp
 from qtpyvcp.plugins import getPlugin
 from qtpyvcp.utilities.logger import getLogger
 
@@ -187,7 +188,11 @@ class VCPBaseWidget(VCPPrimitiveWidget):
                 self._data_channels = ch
                 continue
 
-            eval_env = {'ch': ch, 'widget': self}
+            try:
+                ui = qtpyvcp.WINDOWS['mainwindow']
+            except:
+                ui = self
+            eval_env = {'ch': ch, 'widget': self, 'ui': ui}
             eval_exp = 'lambda: widget.{}({})'.format(
                             prop[0], rule['expression']).encode('utf-8')
             exp = eval(eval_exp, eval_env)

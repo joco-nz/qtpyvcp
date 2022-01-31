@@ -207,6 +207,12 @@ class RulesEditor(QtWidgets.QDialog):
         save_btn.setDefault(False)
         save_btn.clicked.connect(self.saveChanges)
 
+        # save button NO Check
+        force_save_btn = QtWidgets.QPushButton("Force Save", parent=self)
+        force_save_btn.setAutoDefault(False)
+        force_save_btn.setDefault(False)
+        force_save_btn.clicked.connect(lambda:self.saveChanges(False))
+
         # cancel button
         cancel_btn = QtWidgets.QPushButton("Cancel", parent=self)
         cancel_btn.setAutoDefault(False)
@@ -219,6 +225,7 @@ class RulesEditor(QtWidgets.QDialog):
         buttons_layout.addStretch()
         buttons_layout.addWidget(cancel_btn)
         buttons_layout.addWidget(save_btn)
+        buttons_layout.addWidget(force_save_btn)
 
         vlayout.addLayout(buttons_layout)
 
@@ -652,7 +659,7 @@ class RulesEditor(QtWidgets.QDialog):
         return True, ""
 
     @QtCore.Slot()
-    def saveChanges(self):
+    def saveChanges(self, check=True):
         """Save the new rules at the widget `rules` property."""
         # If the form is being edited, we make sure self.rules has all the
         # latest values from the form before we try to validate.  This fixes
@@ -663,7 +670,11 @@ class RulesEditor(QtWidgets.QDialog):
             self.expression_changed()
             self.name_changed()
             self.update_channels()
-        is_valid, message = self.is_data_valid()
+        if check:
+            is_valid, message = self.is_data_valid()
+        else:
+            is_valid = True
+        
         if is_valid:
             data = json.dumps(self.rules)
             print((json.dumps(self.rules, sort_keys=True, indent=4)))
