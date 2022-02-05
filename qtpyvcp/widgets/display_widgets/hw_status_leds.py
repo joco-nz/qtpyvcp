@@ -33,6 +33,7 @@ class HWStatusLeds(VCPWidget, QWidget):
         hal_lines = cmd_result.stdout.splitlines()
         #print(hal_lines)
         hw_lines = []
+        cards = []
         for l in hal_lines:
             # split into fields
             line_fields = l.split()
@@ -44,12 +45,18 @@ class HWStatusLeds(VCPWidget, QWidget):
                 annotation = line_fields[5].decode('UTF-8')
                 signal = line_fields[6].decode('UTF-8')
                 #import pydevd;pydevd.settrace()
-                LOG.debug(f'type = {type}, direction = {direction}')
+                #LOG.debug(f'type = {type}, direction = {direction}')
                 is_hw_pin = re.search(r"hm2_|paraport", pin)
                 if  type.lower() == 'bit' and \
                     direction.lower() != 'i/o' and \
                     is_hw_pin != None:
                     hw_lines.append({'type':type, 'direction':direction, 'pin':pin, 'annotation':annotation, 'signal':signal})
+                    LOG.debug(f"{type} {direction} {pin} {annotation} {signal}")
+                    # split the pin into its parts
+                    pin_parts = pin.split('.')
+                    LOG.debug(f"Pin parts:  {pin_parts}")
+                    
+
 
         # now parse through the hw pins and segment into card types
         
